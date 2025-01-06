@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-server
+  labels:
+    app: flask-server
+spec:
+  selector:
+    matchLabels:
+      app: flask-server
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: flask-server
+    spec:
+      containers:
+      - name: myapp
+        image: gamerslouis/pingpong-flask
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 8080
+            protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-server
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+      name: http
+  selector:
+    app: flask-server

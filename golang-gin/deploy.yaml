@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gin-server
+  labels:
+    app: gin-server
+spec:
+  selector:
+    matchLabels:
+      app: gin-server
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gin-server
+    spec:
+      containers:
+      - name: myapp
+        image: gamerslouis/pingpong-golang-gin
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 8080
+            protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gin-server
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+      name: http
+  selector:
+    app: gin-server
+
