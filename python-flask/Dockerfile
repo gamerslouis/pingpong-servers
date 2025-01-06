@@ -12,7 +12,7 @@ RUN apk add curl
 COPY . /app
 
 ENTRYPOINT ["python3"]
-CMD ["app.py"]
+CMD ["main.py"]
 
 FROM builder as dev-envs
 
