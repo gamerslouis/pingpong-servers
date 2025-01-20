@@ -31,8 +31,11 @@ jobs:
             echo "Building and pushing image: $image_name"
             
             # Build the Docker image
-            docker build -t $image_name $folder
+            docker build -t $image_name:latest $folder
             
             # Push the Docker image to Docker Hub
-            docker push $image_name
+            docker push $image_name:latest
+
+            docker tag $image_name:latest $image_name:${GITHUB_SHA}
+            docker push $image_name:${GITHUB_SHA}
           done
